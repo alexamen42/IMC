@@ -1,0 +1,148 @@
+package com.alexamen;
+
+import java.text.DecimalFormat;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		/**
+		 * Calcula el IMC con la altura y peso introducidos. Además indica si hay
+		 * sobrepeso, obesidad...etc
+		 * 
+		 * @author AlexEsteban
+		 * @version 2.0
+		 * @since 2021-April-05
+		 */
+
+		// 1) Pide al usuario su altura y peso.
+		System.out.println("### Calculadora IMC ###");
+		System.out.println("Por favor introduzca su altura en metros");
+		System.out.println("(Por ejemplo: 1,80)");
+		System.out.print("\nAltura--> ");
+		// Usando "\n" dentro de syso sirve como Enter sin usar otro syso
+
+		Scanner scan1 = new Scanner(System.in);
+		double altura = scan1.nextDouble();
+
+		System.out.println("\nPor favor introduzca su peso en Kgs");
+		System.out.print("Peso--> ");
+		Scanner scan2 = new Scanner(System.in);
+		double peso = scan2.nextDouble();
+
+		/*
+		 * 2) Se calcula con la fórmula-> IMC= Peso/ Altura al cuadrado; 1º calcula el
+		 * cuadrado con el método Math.pow() Otra forma sería multiplicar por si mismo.
+		 */
+
+		altura = Math.pow(altura, 2);
+		double imc = 0.0;
+		imc = peso / altura;
+
+		/*
+		 * 3) Con el método DecimalFormat() se reduce a 1 los decimales del imc. Así se
+		 * evitan problemas después en los if de cada peso.
+		 */
+		DecimalFormat imc_ = new DecimalFormat("###.#");
+
+		System.out.println("\n///////////////////");
+		System.out.println("Su IMC es: " + imc_.format(imc));
+		System.out.println("///////////////////");
+
+		/*
+		 * 4) Condicionales if y else if para cada IMC posible, indicando con texto a
+		 * que equivale cada IMC.
+		 */
+
+		if (imc < 18.5) {
+			System.out.println("Peso insuficiente"); // IMC <18,5
+
+		} else if (imc >= 18.5 && imc <= 24.9) {
+			System.out.println("Normopeso"); // IMC {18,5-24,9}
+
+		} else if (imc >= 25 && imc <= 26.9) {
+			System.out.println("Sobrepeso grado 1"); // IMC {25-26,9}
+
+		} else if (imc >= 27 && imc <= 29.9) {
+			System.out.println("Sobrepeso grado 2"); // IMC {27-29,9}
+
+		} else if (imc >= 30 && imc <= 34.9) {
+			System.out.println("Obesidad de tipo 1"); // IMC {30-34,9}
+
+		} else if (imc >= 35 && imc <= 39.9) {
+			System.out.println("Obesidad de tipo 2"); // IMC {35-39,9}
+
+		} else if (imc >= 40 && imc <= 49.9) {
+			System.out.println("Obesidad de tipo 3"); // IMC {40-49,9}
+
+		} else if (imc >= 50) {
+			System.out.println("Obesidad de tipo 4"); // IMC >50
+		}
+
+		/*
+		 * 5) Vasos de agua recomendados. Se multiplica por 35 el peso y se obtienen los
+		 * mililitros. Se Divide entre 1000 para pasar a litros, pero evitando decimales
+		 * redondeando con Math.round() y calculando el nº de vasos.
+		 */
+
+		double litros;
+		litros = peso * 35;
+		litros = litros / 1000;
+		// peso= (peso*35)/1000; Podría usarse para ahorrar una línea.
+
+		int contador;
+		contador = 0;
+		if (imc < 18.5) {
+
+			while (imc != 18.5) {
+				System.out.println(peso);
+				System.out.println(contador);
+				imc = peso / altura;
+				peso = peso + 1;
+				contador = contador + 1;
+			}
+			System.out.println(contador);
+			System.out.println("imc ideal" + imc);
+		}
+
+		System.out.println("\nDebería beber " + Math.round(litros) + " litros de agua al día");
+		litros = litros * 4;
+		int vasos = (int) litros;
+
+		// Con parse se pasa de double a int y se evitan decimales en cantidad de vasos.
+
+		System.out.println("Es decir, " + vasos + " vasos");
+
+		try {
+			/*
+			 * 5) Se añade más info, que aparece poco despues, "rodeandola" con surround Try
+			 * catch, que está temporizado a 4 segundos con Thread.sLeep.
+			 */
+
+			System.out.println("\n\n< En 4 segundos +Info >");
+
+			Thread.sleep(1 * 1000);
+			System.out.print(".");
+			Thread.sleep(1 * 1000);
+			System.out.print(".");
+			Thread.sleep(1 * 1000);
+			System.out.print(".");
+			Thread.sleep(1 * 1000);
+			System.out.println(
+					"\n---------------------------------------------------------------------------------------------------------");
+			System.out.println("\n\tInfo extraida de...");
+
+			System.out.println("\na) https://www.seedo.es/index.php/pacientes/calculo-imc");
+			System.out.println(
+					"\nb) https://aprende.com/blog/bienestar/nutricion/aprende-como-calcular-tu-ingesta-diaria-de-agua/");
+			System.out.println("\nc) https://brainly.lat/tarea/5340256");
+			System.out.println("\n* es.stackoverflow.com && https://guru99.es/java-tutorial/...etc");
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		System.out.println(
+				"\n---------------------------------------------------------------------------------------------------------");
+	}
+}
